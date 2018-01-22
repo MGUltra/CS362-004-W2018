@@ -20,4 +20,10 @@ int smithyCard(int currentplayer, struct gameState *state, int handpos);
 
 int greatHallCard(int currentplayer, struct gameState *state, int handpos);
 
+int stewardCard(int currentplayer, struct gameState *state, int handpos, 
+		int choice1, int choice2, int choice3);
+
+int councilRoomCard(int currentplayer, struct gameState *state, int handPos);
+
+
 #endif

@@ -643,7 +643,11 @@ int getCost(int cardNumber)
   return -1;
 }
 
-// Assignment 2 additions
+/********************************************************************************
+ *
+ *                         Assignment 2 Refractored Functions
+ *
+ * *****************************************************************************/
 
 int adventurerCard(int drawntreasure, struct gameState *state, int currentPlayer)
 {
@@ -678,7 +682,7 @@ int adventurerCard(int drawntreasure, struct gameState *state, int currentPlayer
       while(z-1>=0)
       {
 	state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[z-1]; // discard all cards in play that have been drawn
-	// z=z-1; REMOVED FOR A BUG
+	 z=z-2; // doubled the rate of decrementation as a BUG 
       }
       return 0;
 
@@ -708,13 +712,77 @@ int greatHallCard(int currentPlayer, struct gameState *state, int handPos)
       drawCard(currentPlayer, state);
 			
       //+1 Actions
+      state->numActions++;			
       state->numActions++;
-			
+	// doubled the action increases for a BUG
+
       //discard card from hand
       discardCard(handPos, currentPlayer, state, 0);
       return 0;
 }
-// END Assignment 2 additions
+
+int stewardCard(int currentPlayer, struct gameState *state, int handPos,
+		int choice1, int choice2, int choice3)
+{
+	if (choice1 == 1)
+	{
+	  //+2 cards
+	  drawCard(currentPlayer, state);
+	  drawCard(currentPlayer, state);
+	}
+	else if (choice1 == 2)
+	{
+	  //+2 coins
+	  state->coins = state->coins + 2;
+	}
+      /*   REMOVED FOR BUG
+	else
+	{
+	  //trash 2 cards in hand
+	  discardCard(choice2, currentPlayer, state, 1);
+	  discardCard(choice3, currentPlayer, state, 1);
+	}
+      */
+
+      //discard card from hand
+      discardCard(handPos, currentPlayer, state, 0);
+      return 0;
+	
+}
+
+int councilRoomCard(int currentPlayer, struct gameState *state, int handPos)
+{
+	int i;
+      //+4 Cards
+	for (i = 0; i < 4; i++)
+	{
+		drawCard(currentPlayer, state);
+	}
+			
+      //+1 Buy
+      state->numBuys++;
+			
+      //Each other player draws a card
+      //for (i = 0; i < state->numPlayers; i++)
+      for (i = 1; i < state->numPlayers; i++) // started i at 1 for bug
+	{
+	  if ( i != currentPlayer )
+	    {
+	      drawCard(i, state);
+	    }
+	}
+			
+      //put played card in played card pile
+      discardCard(handPos, currentPlayer, state, 0);
+			
+      return 0;
+}
+
+/*********************************************************************************
+ *
+ *                         END Assignment 2 Refactored Functions
+ *
+ * ******************************************************************************/
 
 
 
@@ -768,6 +836,10 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 			
     case council_room:
+      
+	councilRoomCard(currentPlayer, state, handPos);
+
+      /* REFACTORED for assignment 2
       //+4 Cards
       for (i = 0; i < 4; i++)
 	{
@@ -789,7 +861,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 			
       //put played card in played card pile
       discardCard(handPos, currentPlayer, state, 0);
-			
+	END REFACTOR */
       return 0;
 			
     case feast:
@@ -1054,6 +1126,10 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 		
     case steward:
+      
+      stewardCard(currentPlayer, state, handPos, choice1, choice2, choice3);
+      
+      /* REFACTORED FOR ASSIGNMENT 2
       if (choice1 == 1)
 	{
 	  //+2 cards
@@ -1065,17 +1141,17 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	  //+2 coins
 	  state->coins = state->coins + 2;
 	}
-      /*   REMOVED FOR BUG
       else
 	{
 	  //trash 2 cards in hand
 	  discardCard(choice2, currentPlayer, state, 1);
 	  discardCard(choice3, currentPlayer, state, 1);
 	}
-      */
+      
 
       //discard card from hand
       discardCard(handPos, currentPlayer, state, 0);
+      */
       return 0;
 		
     case tribute:
