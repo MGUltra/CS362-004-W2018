@@ -12,4 +12,12 @@ int getCost(int cardNumber);
 int cardEffect(int card, int choice1, int choice2, int choice3, 
 	       struct gameState *state, int handPos, int *bonus);
 
+// Assignment 2 additions
+
+int adventurerCard(int drawntreasure, struct gameState *state, int currentplayer);
+
+int smithyCard(int currentplayer, struct gameState *state, int handpos);
+
+int greatHallCard(int currentplayer, struct gameState *state, int handpos);
+
 #endif
