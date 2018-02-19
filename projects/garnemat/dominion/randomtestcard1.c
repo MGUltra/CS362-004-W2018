@@ -119,13 +119,13 @@ int main () {
 		
 		if(testDeck == controlDeck - drawnCards)
 		{
-			printf(GREEN"Player Deck Returned: %d -- TEST SUCCESS\n"RESET, testDeck);
+			//printf(GREEN"Player Deck Returned: %d -- TEST SUCCESS\n"RESET, testDeck);
 			pass2++;
 		}
 		else
 		{
 			//failure = 1;
-			printf(RED"Player Deck Returned: %d -- TEST FAILURE\n"RESET, testDeck);
+			//printf(RED"Player Deck Returned: %d -- TEST FAILURE\n"RESET, testDeck);
 			fail2++;
 		}
 
